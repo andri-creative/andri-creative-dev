@@ -1,11 +1,77 @@
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/pink.css";
+@import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/cyan.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/slate.css";
+@import "@radix-ui/colors/brown.css";
+@import "@radix-ui/themes/styles.css";
+/* dan versi dark juga kalau perlu */
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "WhiteStar";
+  src: url("/fonts/WhiteStar.woff2") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
-@theme inline {
+.font-itsmehello {
+  font-family: "Itsmehello", sans-serif;
+}
+
+.font-palmsprings {
+  font-family: "Palmsprings", sans-serif;
+}
+
+.font-perfectly-rainbow {
+  font-family: "PerfectlyRainbow", sans-serif;
+}
+
+.font-white-star {
+  font-family: "WhiteStar", sans-serif;
+}
+
+:root {
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+  /* --background: #ffffff;
+  --foreground: #171717; */
+}
+
+/* 🟦 Default (Mobile) → Semua full width 12 */
+.res-col {
+  grid-column: span 12 !important;
+}
+
+/* 🟩 Tablet: 768px – 1023px → 12, 6, 6 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .res-col-tablet {
+    grid-column: span 6 !important;
+  }
+}
+
+/* 🟪 Desktop: ≥ 1024px → 6, 3, 3 */
+@media (min-width: 1024px) {
+  .res-col-desktop-6 {
+    grid-column: span 6 !important;
+  }
+
+  .res-col-desktop-3 {
+    grid-column: span 3 !important;
+  }
+}
+
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -17,10 +83,19 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+} */
+
+/* html {
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
+body {
+  transition: background-color 0.4s ease, color 0.4s ease; */
+/* } */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  transition: background-color 0.6s ease, color 0.6s ease;
+  /* background: var(--background);
+  color: var(--foreground); */
+
   font-family: Arial, Helvetica, sans-serif;
 }
