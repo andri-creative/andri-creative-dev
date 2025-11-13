@@ -3,7 +3,7 @@
 import { Box, Card, Heading, Text, Flex, Badge, Button, Grid, Inset, Separator } from "@radix-ui/themes";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import { useAppContext } from "../../layout";
+import { useAppContext } from "@/app/contexts/AppContext";
 import { ArrowLeftIcon, CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
 
 export default function AchievementDetailPage() {
