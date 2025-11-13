@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/layout/header/Header";
 import Sidebar from "@/components/layout/sidebar/sidebar";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,7 +11,6 @@ import { useThemeMode } from "@/components/ThemeProvider";
 import { useAppData } from "@/app/hooks/useAppData";
 import { AppProvider } from "@/app/contexts/AppContext";
 
-
 export default function UILayout({
   children,
 }: {
@@ -19,14 +18,36 @@ export default function UILayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [iconOnly, setIconOnly] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
   const { mode, accentColor } = useThemeMode();
 
-  // Gunakan custom hook untuk data fetching
+  // Detect mobile screen
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
   const appData = useAppData();
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const toggleIconOnly = () => setIconOnly(!iconOnly);
+  const toggleSidebar = () => {
+    console.log("Toggle sidebar clicked");
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const toggleIconOnly = () => {
+    if (!isMobile) {
+      setIconOnly(!iconOnly);
+    }
+  };
 
   const backgroundColor =
     mode === "dark"
@@ -58,34 +79,40 @@ export default function UILayout({
         }}
       >
         {/* Mobile Sidebar */}
-        <AnimatePresence mode="wait">
-          {sidebarOpen && (
+        <AnimatePresence>
+          {sidebarOpen && isMobile && (
             <>
               <motion.div
                 key="mobileSidebar"
-                initial={{ x: "-100%", opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: "-100%", opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 style={{
                   position: "fixed",
                   top: 0,
                   left: 0,
                   bottom: 0,
-                  width: "256px",
-                  zIndex: 50,
+                  width: "280px",
+                  zIndex: 60,
                   height: "100vh",
+                  backgroundColor: "var(--color-panel-solid)",
+                  borderRight: "1px solid var(--gray-6)",
                 }}
               >
                 <ScrollArea scrollbars="vertical" style={{ height: "100vh" }}>
-                  <Sidebar iconOnly={false} />
+                  <Sidebar
+                    iconOnly={false}
+                    onMobileClose={() => setSidebarOpen(false)}
+                  />
                 </ScrollArea>
               </motion.div>
 
+              {/* Overlay */}
               <motion.div
                 key="overlay"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 style={{
@@ -94,7 +121,8 @@ export default function UILayout({
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  zIndex: 40,
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 50,
                 }}
                 onClick={() => setSidebarOpen(false)}
               />
@@ -103,22 +131,22 @@ export default function UILayout({
         </AnimatePresence>
 
         {/* Desktop Sidebar */}
-        <Box
-          display={{ initial: "none", lg: "block" }}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            height: "100vh",
-            width: iconOnly ? "80px" : "256px",
-            zIndex: 20,
-            borderRight: "1px solid var(--gray-6)",
-          }}
-        >
-          {/* <ScrollArea scrollbars="vertical" style={{ height: "100%" }}> */}
-          <Sidebar iconOnly={iconOnly} stats={appData.ratingStats} />
-          {/* </ScrollArea> */}
-        </Box>
+        {!isMobile && (
+          <Box
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              height: "100vh",
+              width: iconOnly ? "80px" : "256px",
+              zIndex: 20,
+              borderRight: "1px solid var(--gray-6)",
+              backgroundColor: "var(--color-panel-solid)",
+            }}
+          >
+            <Sidebar iconOnly={iconOnly} stats={appData.ratingStats} />
+          </Box>
+        )}
 
         {/* Main Content */}
         <Box
@@ -129,7 +157,8 @@ export default function UILayout({
             minHeight: "100vh",
             overflow: "hidden",
             position: "relative",
-            marginLeft: iconOnly ? "80px" : "256px",
+            // Responsive margin left
+            marginLeft: isMobile ? "0px" : (iconOnly ? "80px" : "256px"),
             transition: "margin-left 0.3s ease",
           }}
         >
@@ -138,16 +167,17 @@ export default function UILayout({
             style={{
               position: "sticky",
               top: 0,
-              zIndex: 30,
-              backdropFilter: "blur(0px)",
+              zIndex: 40,
+              backdropFilter: "blur(10px)",
               backgroundColor: "var(--color-panel)",
               borderBottom: "1px solid var(--gray-6)",
-              transition: "backdrop-filter 0.3s ease, background-color 0.3s ease",
             }}
           >
             <Header
               onToggleSidebar={toggleSidebar}
               onToggleIconOnly={toggleIconOnly}
+              isMobile={isMobile}
+              isSidebarOpen={sidebarOpen}
             />
           </Box>
 
@@ -176,13 +206,12 @@ export default function UILayout({
               bottom: "30px",
               right: "30px",
               zIndex: 100,
-              pointerEvents: "auto",
             }}
           >
             <Stars />
           </Box>
         </Box>
       </Box>
-    </AppProvider >
+    </AppProvider>
   );
 }

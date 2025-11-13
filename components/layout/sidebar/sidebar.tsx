@@ -86,9 +86,10 @@ import { RatingStats } from "@/lib/getDashboard";
 interface SidebarProps {
   iconOnly?: boolean;
   stats?: RatingStats | null;
+  onMobileClose?: () => void;
 }
 
-export default function Sidebar({ iconOnly = false, stats }: SidebarProps) {
+export default function Sidebar({ iconOnly = false, stats, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
 
   const distribution = stats?.rantingDistribution
@@ -140,6 +141,9 @@ export default function Sidebar({ iconOnly = false, stats }: SidebarProps) {
                 <Box key={item.name} mb="1">
                   <Link
                     href={item.href}
+                    onClick={() => {
+                      if (onMobileClose) onMobileClose();
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",

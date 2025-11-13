@@ -10,11 +10,15 @@ import { AnimatePresence, motion } from "framer-motion";
 interface HeaderProps {
   onToggleSidebar?: () => void;
   onToggleIconOnly?: () => void;
+  isMobile?: boolean;
+  isSidebarOpen?: boolean;
 }
 
 export default function Header({
   onToggleSidebar,
   onToggleIconOnly,
+  isMobile,
+  isSidebarOpen,
 }: HeaderProps) {
   const [isIconOnly, setIsIconOnly] = useState(false);
 
