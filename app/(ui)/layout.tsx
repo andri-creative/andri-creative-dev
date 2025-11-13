@@ -11,16 +11,11 @@ import { useThemeMode } from "@/components/ThemeProvider";
 import { useAppData } from "@/app/hooks/useAppData";
 import { AppProvider } from "@/app/contexts/AppContext";
 
-import type { WordItem } from "@/lib/words";
-interface LayoutChildProps {
-  words?: WordItem[];
-  loading?: boolean;
-}
 
 export default function UILayout({
   children,
 }: {
-  children: React.ReactElement<LayoutChildProps>;
+  children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [iconOnly, setIconOnly] = useState(false);
@@ -121,7 +116,7 @@ export default function UILayout({
           }}
         >
           {/* <ScrollArea scrollbars="vertical" style={{ height: "100%" }}> */}
-            <Sidebar iconOnly={iconOnly} stats={appData.ratingStats} />
+          <Sidebar iconOnly={iconOnly} stats={appData.ratingStats} />
           {/* </ScrollArea> */}
         </Box>
 
