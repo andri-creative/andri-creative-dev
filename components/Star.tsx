@@ -53,7 +53,7 @@ export default function Stars() {
     if (showAlert) {
       const timer = setTimeout(() => {
         setShowAlert(false);
-        setOpen(false); // Juga close drawer
+        setOpen(false); 
       }, 3000);
       return () => clearTimeout(timer);
     }

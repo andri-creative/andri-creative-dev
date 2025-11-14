@@ -36,10 +36,11 @@ export interface ProjectStats {
   description: string;
   image: string;
   status: boolean;
+  pinned: boolean;
   techStack: string[];
   role: string;
-  demoUrl: string;
-  repoUrl: string;
+  demoUrl?: string;
+  repoUrl?: string;
   features: string[];
   tools: {
     id: string;
