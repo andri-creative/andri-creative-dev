@@ -76,21 +76,25 @@ export interface DashboardData {
 }
 
 export async function getDashboard(): Promise<DashboardData> {
+  const startTime = Date.now();
+
   try {
     const res = await fetch(
-      "https://backend-ts-lemon.vercel.app/api/dashboard"
+      "https://backend-ts-lemon.vercel.app/api/dashboard",
+      {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      }
     );
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+    const endTime = Date.now();
+    console.log(`⏱️ Response time: ${endTime - startTime}ms`);
+
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     const data = await res.json();
-
-    // Validasi basic untuk memastikan data sesuai struktur yang diharapkan
-    if (!data.rantings || !data.rantings.stats) {
-      throw new Error("Invalid dashboard data structure");
-    }
 
     return data as DashboardData;
   } catch (error) {

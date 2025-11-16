@@ -22,6 +22,8 @@ export function useAppData() {
   const [projects, setProjects] = useState<ProjectStats[]>([]);
   const [ratingStats, setRatingStats] = useState<RatingStats | null>(null);
 
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
   const [wordsLoading, setWordsLoading] = useState(true);
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
@@ -43,9 +45,52 @@ export function useAppData() {
     itemsPerPage: 0,
   });
 
+  // ⭐ TAMBAHKAN FUNCTION BARU INI
+  const updateRatingStats = (newStats: RatingStats) => {
+    setRatingStats(newStats);
+    console.log("📊 Stats updated from backend response:", newStats);
+  };
+
+  const refreshRating = async (newRating?: number) => {
+    console.log("🔄 refreshRating dipanggil dengan rating:", newRating);
+
+    // OPTIMISTIC UPDATE: Langsung update UI dengan data baru
+    if (newRating && ratingStats) {
+      const optimisticStats = calculateOptimisticStats(ratingStats, newRating);
+      setRatingStats(optimisticStats);
+      console.log("⚡ Optimistic update:", optimisticStats);
+      return;
+    }
+  };
+
+  const calculateOptimisticStats = (
+    currentStats: RatingStats,
+    newRating: number
+  ): RatingStats => {
+    const newTotalRating = currentStats.totalRating + 1;
+    const newAverageRating =
+      (currentStats.averageRating * currentStats.totalRating + newRating) /
+      newTotalRating;
+
+    // Update distribution
+    const newDistribution = { ...currentStats.rantingDistribution };
+    const ratingKey = newRating.toString();
+    newDistribution[ratingKey] = (newDistribution[ratingKey] || 0) + 1;
+
+    return {
+      averageRating: parseFloat(newAverageRating.toFixed(1)),
+      totalRating: newTotalRating,
+      rantingDistribution: newDistribution,
+    };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (refreshTrigger > 0) {
+          setLoading(true);
+        }
+
         setWordsLoading(true);
         setSkillsLoading(true);
         setAchievementsLoading(true);
@@ -80,7 +125,7 @@ export function useAppData() {
     };
 
     fetchData();
-  }, []);
+  }, [refreshTrigger]);
 
   return {
     words,
@@ -97,5 +142,7 @@ export function useAppData() {
     loading,
     achievementsPagination,
     projectsPagination,
+    updateRatingStats,
+    refreshRating,
   };
 }

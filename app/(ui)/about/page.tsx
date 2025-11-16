@@ -175,10 +175,10 @@ export default function AboutPage() {
                                 }}
                             >
                                 <PiGraduationCap style={{ fontSize: 'inherit', verticalAlign: 'middle' }} />
-                                <Text style={{ margin: 0 }}>Achievements</Text>
+                                <Text style={{ margin: 0 }}>Education</Text>
                             </Heading>
                             <Text size="3" color="gray">
-                                A curated collection of certificates and badges I&#39;ve earned throughout my professional and academic journey.
+                                My educational journey.
                             </Text>
                         </Box>
                         <Flex direction="row" gap="4" align="start" style={{

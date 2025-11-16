@@ -102,6 +102,13 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
     }))
     : [];
 
+  const displayStats = stats || {
+    averageRating: 0,
+    totalRating: 0,
+    rantingDistribution: {}
+  };
+
+
   return (
     <Theme>
       <motion.aside
@@ -176,7 +183,7 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
               );
             })}
           </Box>
-          {!iconOnly && stats && (
+          {!iconOnly && displayStats && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -209,7 +216,7 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
                     </Text>
                     <Flex align="center" gap="2" mt="1">
                       <Text size="5" weight="bold">
-                        {stats.averageRating.toFixed(1)}/5
+                        {displayStats.averageRating.toFixed(1)}/5
                       </Text>
                       <Flex align="center" gap="1">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -217,12 +224,12 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
                             key={star}
                             size={14}
                             color={
-                              star <= Math.round(stats.averageRating)
+                              star <= Math.round(displayStats.averageRating)
                                 ? "#FFD700"
                                 : "#E5E7EB"
                             }
                             fill={
-                              star <= Math.round(stats.averageRating)
+                              star <= Math.round(displayStats.averageRating)
                                 ? "#FFD700"
                                 : "none"
                             }
@@ -231,7 +238,7 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
                       </Flex>
                     </Flex>
                     <Text size="1" color="gray" mt="1">
-                      {stats?.totalRating ?? 0} ratings
+                      {displayStats?.totalRating ?? 0} ratings
                     </Text>
                   </motion.div>
                 </Flex>

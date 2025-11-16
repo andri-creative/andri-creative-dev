@@ -22,6 +22,7 @@ export default function UILayout({
   const pathname = usePathname();
   const { mode, accentColor } = useThemeMode();
 
+
   // Detect mobile screen
   useEffect(() => {
     const checkMobile = () => {
@@ -68,6 +69,9 @@ export default function UILayout({
       projects: appData.projects,
       projectsLoading: appData.projectsLoading,
       projectsPagination: appData.projectsPagination,
+      // ratingStats: appData.ratingStats,
+      // refreshRating: appData.refreshRating,
+      // refreshRating: appData.refreshRating,
     }}>
       <Box
         style={{
@@ -208,7 +212,7 @@ export default function UILayout({
               zIndex: 100,
             }}
           >
-            <Stars />
+            <Stars refreshRating={appData.refreshRating} />
           </Box>
         </Box>
       </Box>

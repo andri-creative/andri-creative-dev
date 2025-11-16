@@ -28,6 +28,8 @@ interface AppProviderProps {
         currentPage: number;
         itemsPerPage: number;
     };
+    // ratingStats: RatingStats | null;
+    // refreshRating: (newRating?: number) => void
 }
 
 const AppContext = createContext<AppProviderProps>({
@@ -53,6 +55,8 @@ const AppContext = createContext<AppProviderProps>({
         currentPage: 1,
         itemsPerPage: 0,
     },
+    // ratingStats: null,
+    // refreshRating: () => { },
 });
 
 interface AppProviderComponentProps {

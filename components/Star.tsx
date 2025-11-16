@@ -11,24 +11,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import { AnimationItem } from "lottie-web";
+import { startTransition } from "react";
 
 import sad from "@/public/emoticons/1.json";
 import confused from "@/public/emoticons/2.json";
 import neutral from "@/public/emoticons/3.json";
 import happy from "@/public/emoticons/4.json";
 import love from "@/public/emoticons/5.json";
-// import starIcon from "@/public/emoticons/Star.json";
+import { useRatingForm } from '@/app/hooks/useRatingForm'
+import { ratingService } from '@/app/services/ratingService'
 
 interface Emotion {
   icon: string;
   label: string;
   animation: object | AnimationItem;
 }
+import { RatingStats } from "@/lib/getDashboard";
 
-export default function Stars() {
+interface StarsProps {
+  refreshRating: (newRating?: number) => void;
+  updateRatingStats?: (newStats: RatingStats) => void;
+}
+
+export default function Stars({ refreshRating }: StarsProps) {
   const [open, setOpen] = useState(false);
   const [hover, setHover] = useState(0);
-  const [rating, setRating] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
@@ -40,6 +47,16 @@ export default function Stars() {
     { icon: "😊", label: "Good", animation: happy },
     { icon: "😍", label: "Very Good", animation: love },
   ];
+
+  // Gunakan TanStack Form
+  const { form, isSubmitting } = useRatingForm({
+    onSubmit: async (values) => {
+      // ⭐ TAMBAHKAN RETURN
+      return await ratingService.submitRating(values.rating);
+    },
+  })
+
+  const ratingValue = form.state.values.rating;
 
   // Cek ukuran layar
   useEffect(() => {
@@ -53,25 +70,61 @@ export default function Stars() {
     if (showAlert) {
       const timer = setTimeout(() => {
         setShowAlert(false);
-        setOpen(false); 
+        setOpen(false);
       }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showAlert]);
 
-  const handleRatingSelect = (value: number, emotion: Emotion) => {
-    setRating(value);
-    setHover(0);
+  const handleRatingSelect = async (value: number, emotion: Emotion) => {
     setSelectedEmotion(emotion);
+    form.setFieldValue('rating', value);
 
-    // Tutup drawer dulu, baru buka alert
-    setOpen(false);
+    console.log("🎯 Emoticon yang dipilih:", emotion.label);
+    console.log("⭐ Rating value:", value);
 
-    // Tunggu animasi drawer selesai, baru buka alert
-    setTimeout(() => {
-      setShowAlert(true);
-    }, 300); // Sesuaikan dengan durasi animasi drawer
+    try {
+      // 1. OPTIMISTIC UPDATE DULU
+      if (typeof refreshRating === 'function') {
+        refreshRating(value);
+      }
+
+      // 2. SUBMIT DAN DAPATKAN RESPONSE
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = await form.handleSubmit() as any;
+      console.log("✅ Rating submitted with response:", result);
+
+      // 3. GUNAKAN STATS DARI RESPONSE BACKEND (REAL-TIME!)
+      if (result?.stats) {
+        console.log("🎉 Using real-time stats from backend:", result.stats);
+        // Data real dari backend sudah ada di sini!
+      }
+
+      setOpen(false);
+      setTimeout(() => {
+        setShowAlert(true);
+      }, 300);
+    } catch (error) {
+      console.error("❌ Failed to submit rating:", error);
+      setOpen(false);
+      setTimeout(() => {
+        setShowAlert(true);
+      }, 300);
+    }
   };
+
+  function resetUI() {
+    form.reset();
+    setHover(0);
+    setSelectedEmotion(null);
+  }
+
+  useEffect(() => {
+    if (open) {
+      startTransition(resetUI);
+    }
+  }, [open]);
+
 
   return (
     <Box>
@@ -81,6 +134,7 @@ export default function Stars() {
         variant="soft"
         size="4"
         onClick={() => setOpen(true)}
+        disabled={isSubmitting}
         style={{
           position: "fixed",
           bottom: "24px",
@@ -88,6 +142,7 @@ export default function Stars() {
           zIndex: 100,
           backgroundColor: "var(--accent-9)",
           color: "white",
+          opacity: isSubmitting ? 0.6 : 1,
         }}
       >
         <StarIcon width="24" height="24" />
@@ -109,7 +164,7 @@ export default function Stars() {
                 backgroundColor: "black",
                 zIndex: 99,
               }}
-              onClick={() => setOpen(false)}
+              onClick={() => !isSubmitting && setOpen(false)}
             />
 
             {/* Panel Drawer dari bawah */}
@@ -133,97 +188,119 @@ export default function Stars() {
                 boxShadow: "0 -4px 20px rgba(0,0,0,0.2)",
               }}
             >
-              <Flex direction="column" justify="center" align="center" gap="4">
-                <Text
-                  size={isMobile ? "5" : "7"}
-                  weight="bold"
-                  align="center"
-                  style={{ marginBottom: "8px" }}
-                >
-                  Give Your Rating
-                </Text>
-                <Text
-                  size={isMobile ? "2" : "3"}
-                  align="center"
-                  color="gray"
-                  style={{ marginBottom: "24px" }}
-                >
-                  Choose an emoji that reflects your experience
-                </Text>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  form.handleSubmit()
+                }}
+              >
+                <Flex direction="column" justify="center" align="center" gap="4">
+                  <Text
+                    size={isMobile ? "5" : "7"}
+                    weight="bold"
+                    align="center"
+                    style={{ marginBottom: "8px" }}
+                  >
+                    {"Give Your Rating"}
+                  </Text>
+                  <Text
+                    size={isMobile ? "2" : "3"}
+                    align="center"
+                    color="gray"
+                    style={{ marginBottom: "24px" }}
+                  >
+                    {isSubmitting ? "Please wait..." : "Choose an emoji that reflects your experience"}
+                  </Text>
 
-                {/* Daftar Emotikon - SEJAJAR TIDAK TURUN */}
-                <Flex
-                  justify="center"
-                  align="center"
-                  gap={isMobile ? "3" : "5"}
-                  style={{
-                    width: "100%",
-                    maxWidth: isMobile ? "100%" : "600px",
-                  }}
-                >
-                  {emoticons.map((item, index) => {
-                    const value = index + 1;
-                    const isSelected = value <= (hover || rating);
+                  {/* Field rating (hidden) */}
+                  <form.Field name="rating">
+                    {(field) => (
+                      <input
+                        type="hidden"
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(Number(e.target.value))}
+                      />
+                    )}
+                  </form.Field>
 
-                    return (
-                      <Flex
-                        key={index}
-                        direction="column"
-                        align="center"
-                        gap="2"
-                        style={{
-                          flex: "1",
-                          minWidth: isMobile ? "60px" : "80px",
-                          maxWidth: isMobile ? "80px" : "100px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleRatingSelect(value, item)}
-                        onMouseEnter={() => setHover(value)}
-                        onMouseLeave={() => setHover(0)}
-                      >
-                        {/* Emoji Button - SEJAJAR */}
-                        <Box
-                          style={{
-                            width: isMobile ? "50px" : "60px",
-                            height: isMobile ? "50px" : "60px",
-                            borderRadius: "50%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: isSelected
-                              ? "var(--accent-9)"
-                              : "var(--gray-3)",
-                            border: `2px solid ${isSelected ? "var(--accent-9)" : "var(--gray-6)"
-                              }`,
-                            transition: "all 0.2s ease",
-                            transform: isSelected ? "scale(1.15)" : "scale(1)",
-                            fontSize: isMobile ? "1.8rem" : "2rem",
-                          }}
-                        >
-                          {item.icon}
-                        </Box>
+                  {/* Daftar Emotikon */}
+                  <Flex
+                    justify="center"
+                    align="center"
+                    gap={isMobile ? "3" : "5"}
+                    style={{
+                      width: "100%",
+                      maxWidth: isMobile ? "100%" : "600px",
+                      opacity: isSubmitting ? 0.6 : 1,
+                      pointerEvents: isSubmitting ? "none" : "auto",
+                    }}
+                  >
+                    {emoticons.map((item, index) => {
+                      const value = index + 1;
+                      const isSelected = value <= (hover || ratingValue);
 
-                        {/* Label */}
-                        <Text
-                          size={isMobile ? "1" : "2"}
-                          weight={isSelected ? "bold" : "medium"}
-                          color={isSelected ? "violet" : "gray"}
+                      return (
+                        <Flex
+                          key={index}
+                          direction="column"
                           align="center"
+                          gap="2"
                           style={{
-                            lineHeight: "1.2",
-                            height: isMobile ? "32px" : "auto",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
+                            flex: "1",
+                            minWidth: isMobile ? "60px" : "80px",
+                            maxWidth: isMobile ? "80px" : "100px",
+                            cursor: isSubmitting ? "not-allowed" : "pointer",
                           }}
+                          onClick={() => !isSubmitting && handleRatingSelect(value, item)}
+                          onMouseEnter={() => !isSubmitting && setHover(value)}
+                          onMouseLeave={() => !isSubmitting && setHover(0)}
                         >
-                          {item.label}
-                        </Text>
-                      </Flex>
-                    );
-                  })}
+                          {/* Emoji Button */}
+                          <Box
+                            style={{
+                              width: isMobile ? "50px" : "60px",
+                              height: isMobile ? "50px" : "60px",
+                              borderRadius: "50%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: isSelected
+                                ? "var(--accent-9)"
+                                : "var(--gray-3)",
+                              border: `2px solid ${isSelected ? "var(--accent-9)" : "var(--gray-6)"
+                                }`,
+                              transition: "all 0.2s ease",
+                              transform: isSelected ? "scale(1.15)" : "scale(1)",
+                              fontSize: isMobile ? "1.8rem" : "2rem",
+                            }}
+                          >
+                            {item.icon}
+                          </Box>
+
+                          {/* Label */}
+                          <Text
+                            size={isMobile ? "1" : "2"}
+                            weight={isSelected ? "bold" : "medium"}
+                            color={isSelected ? "violet" : "gray"}
+                            align="center"
+                            style={{
+                              lineHeight: "1.2",
+                              height: isMobile ? "32px" : "auto",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {item.label}
+                          </Text>
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
                 </Flex>
-              </Flex>
+              </form>
             </motion.div>
           </>
         )}
@@ -238,7 +315,6 @@ export default function Stars() {
             textAlign: "center",
             padding: "24px",
             backgroundColor: "transparent",
-            // backgroundColor: "var(--color-panel)",
             border: "none",
             boxShadow: "none",
           }}
@@ -259,9 +335,9 @@ export default function Stars() {
               </Box>
             )}
 
-            <Text size="4" weight="bold">
-              Thank You!
-            </Text>
+            <AlertDialog.Description>
+              Thank you for your rating!
+            </AlertDialog.Description>
 
             <Text size="2" color="gray" align="center">
               Thank you for your{" "}
@@ -270,10 +346,6 @@ export default function Stars() {
               </Text>{" "}
               rating!
             </Text>
-
-            {/* <Text size="1" color="gray">
-              This dialog will close automatically in 3 seconds...
-            </Text> */}
           </Flex>
         </AlertDialog.Content>
       </AlertDialog.Root>
