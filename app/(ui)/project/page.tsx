@@ -40,10 +40,6 @@ interface Project {
     tools: Tool[];
 }
 
-interface ProjectCardProps {
-    project: Project;
-    index: number;
-}
 
 export default function ProjectPage() {
     const { accentColor } = useThemeMode();

@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { LuComponent } from "react-icons/lu";
 import { GrBook } from "react-icons/gr";
 import { TbMessageChatbot } from "react-icons/tb";
+import { useAppContext } from "@/app/contexts/AppContext";
 
 export default function FeaturedSections() {
     const images = [
@@ -68,6 +69,8 @@ export default function FeaturedSections() {
 
     const [current, setCurrent] = useState(0);
     const [startPos, setStartPos] = useState(0);
+    const { projects, projectsLoading } = useAppContext();
+    console.log("projectsLoading:", projectsLoading);
 
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -165,25 +168,29 @@ export default function FeaturedSections() {
                                         style={{ height: "100%" }}
                                     >
                                         <Flex direction="column" gap="4">
-                                            <AspectRatio
-                                                ratio={16 / 8}
-                                                style={{
-                                                    border: "4px solid var(--accent-5)",
-                                                    borderRadius: "var(--radius-2)",
-                                                }}
-                                            >
-                                                <Image
-                                                    src="/project/01.png"
-                                                    quality={85}
-                                                    fill
-                                                    alt="Project "
+                                            {projects.map((i) => (
+                                                <AspectRatio key={i.id}
+                                                    ratio={16 / 8}
                                                     style={{
-                                                        objectFit: "cover",
+                                                        border: "4px solid var(--accent-5)",
                                                         borderRadius: "var(--radius-2)",
                                                     }}
-                                                />
-                                            </AspectRatio>
-                                            <AspectRatio ratio={16 / 8}>
+                                                >
+                                                    <Image
+                                                        src={i.image}
+                                                        quality={85}
+                                                        fill
+                                                        alt={i.id + 'demo preview'}
+                                                        style={{
+                                                            objectFit: "cover",
+                                                            borderRadius: "var(--radius-2)",
+                                                        }}
+                                                    />
+                                                </AspectRatio>
+
+                                            ))}
+
+                                            {/* <AspectRatio ratio={16 / 8}>
                                                 <Image
                                                     src="/project/01.png"
                                                     quality={85}
@@ -218,7 +225,7 @@ export default function FeaturedSections() {
                                                         borderRadius: "var(--radius-2)",
                                                     }}
                                                 />
-                                            </AspectRatio>
+                                            </AspectRatio> */}
                                         </Flex>
                                     </ScrollArea>
                                 </Box>
