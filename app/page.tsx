@@ -61,7 +61,6 @@ export default function PortfolioEntry() {
         const city = locationData.city || locationData.locality || 'Lokasi Anda';
 
         // Step 3: Get weather data from OpenWeatherMap
-        // GANTI YOUR_API_KEY dengan API key asli Anda
         const weatherResponse = await fetch(
           `/api/weather?lat=${latitude}&lon=${longitude}`
         );
@@ -173,199 +172,201 @@ export default function PortfolioEntry() {
         ))}
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 min-h-screen flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* Main Content - PERBAIKAN PADDING DI SINI */}
+      <div className="relative z-10 container mx-auto px-4 min-h-screen flex items-center justify-center py-8">
+        <div className="w-full max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
-          {/* Left Side - Portfolio Intro */}
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-white space-y-6"
-          >
+            {/* Left Side - Portfolio Intro */}
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
-              className="inline-block"
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="text-white space-y-6 order-2 lg:order-1"
             >
-              <div className="text-amber-400 text-sm font-mono bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
-                👋 Hello, Welcome!
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring" }}
+                className="inline-block"
+              >
+                <div className="text-amber-400 text-sm font-mono bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+                  👋 Hello, Welcome!
+                </div>
+              </motion.div>
 
-            <motion.h1
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-5xl lg:text-6xl font-bold leading-tight"
-            >
-              I&#39;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-pink-400">Andri</span>
-            </motion.h1>
+              <motion.h1
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight"
+              >
+                I&#39;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-pink-400">Andri</span>
+              </motion.h1>
 
-            <motion.p
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl text-gray-300 leading-relaxed"
-            >
-              Creative <span className="text-amber-300">Fullstack Developer</span> dengan passion
-              dalam menciptakan pengalaman digital yang menarik dan functional.
-            </motion.p>
+              <motion.p
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg sm:text-xl text-gray-300 leading-relaxed"
+              >
+                Creative <span className="text-amber-300">Fullstack Developer</span> dengan passion
+                dalam menciptakan pengalaman digital yang menarik dan functional.
+              </motion.p>
 
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-4 pt-4"
-            >
-              <Link href="/home">
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-wrap gap-3 sm:gap-4 pt-4"
+              >
+                <Link href="/home">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors shadow-lg text-sm sm:text-base"
+                  >
+                    🚀 Explore Portfolio
+                  </motion.button>
+                </Link>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-semibold transition-colors shadow-lg"
+                  className="border border-amber-400/30 hover:border-amber-400/60 text-amber-300 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors backdrop-blur-sm text-sm sm:text-base"
                 >
-                  🚀 Explore Portfolio
+                  📧 Contact Me
                 </motion.button>
-              </Link>
+              </motion.div>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border border-amber-400/30 hover:border-amber-400/60 text-amber-300 px-8 py-3 rounded-full font-semibold transition-colors backdrop-blur-sm"
+              {/* Tech Stack Badges */}
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-wrap gap-2 sm:gap-3 pt-6"
               >
-                📧 Contact Me
-              </motion.button>
+                {['Next.js', 'React', 'TypeScript', 'Node.js', 'Laravel'].map((tech, index) => (
+                  <motion.div
+                    key={tech}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.7 + index * 0.1 }}
+                    className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-xs sm:text-sm border border-white/20"
+                  >
+                    {tech}
+                  </motion.div>
+                ))}
+              </motion.div>
             </motion.div>
 
-            {/* Tech Stack Badges */}
+            {/* Right Side - Weather Widget */}
             <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-wrap gap-3 pt-6"
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center lg:justify-end order-1 lg:order-2 mb-8 lg:mb-0"
             >
-              {['Next.js', 'React', 'TypeScript', 'Node.js', 'Laravel'].map((tech, index) => (
-                <motion.div
-                  key={tech}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
-                  className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm border border-white/20"
-                >
-                  {tech}
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Right Side - Weather Widget */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex justify-center lg:justify-end"
-          >
-            <motion.div
-              whileHover={{ scale: 1.02, y: -5 }}
-              className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 max-w-md w-full shadow-2xl"
-            >
-              {/* Widget Header */}
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-white font-semibold text-lg">Cuaca Lokal</h3>
-                  <p className="text-gray-300 text-sm">{currentTime}</p>
-                </div>
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="text-3xl"
-                >
-                  🌍
-                </motion.div>
-              </div>
-
-              {/* Weather Content */}
-              {weather.loading ? (
-                <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400 mx-auto"></div>
-                  <p className="text-gray-300 mt-2">Mendeteksi lokasi...</p>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center justify-between mb-4">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5, type: "spring" }}
-                      className="text-5xl"
-                    >
-                      {getWeatherEmoji(weather.condition)}
-                    </motion.div>
-                    <div className="text-right">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6 }}
-                        className="text-3xl font-bold text-white"
-                      >
-                        {weather.temp}°C
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.7 }}
-                        className="text-amber-300 font-medium capitalize"
-                      >
-                        {weather.condition}
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                        className="text-gray-300 text-sm mt-1"
-                      >
-                        📍 {weather.location}
-                      </motion.div>
-                    </div>
+              <motion.div
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 w-full max-w-md shadow-2xl"
+              >
+                {/* Widget Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-white font-semibold text-lg">Cuaca Lokal</h3>
+                    <p className="text-gray-300 text-sm">{currentTime}</p>
                   </div>
-
-                  {/* Weather Details */}
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.9 }}
-                    className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10"
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                    className="text-3xl"
                   >
-                    <div className="text-center">
-                      <div className="text-gray-300 text-sm">Kelembapan</div>
-                      <div className="text-white font-semibold">{weather.humidity}%</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-gray-300 text-sm">Terasa seperti</div>
-                      <div className="text-white font-semibold">{weather.temp + 2}°C</div>
-                    </div>
+                    🌍
                   </motion.div>
+                </div>
 
-                  {/* Fun Message */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                    className="text-center mt-4 pt-4 border-t border-white/10"
-                  >
-                    <p className="text-amber-300 text-sm">
-                      {getWeatherMessage(weather.temp, weather.condition)}
-                    </p>
-                    {weather.error && (
-                      <p className="text-red-300 text-xs mt-2">{weather.error}</p>
-                    )}
-                  </motion.div>
-                </>
-              )}
+                {/* Weather Content */}
+                {weather.loading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400 mx-auto"></div>
+                    <p className="text-gray-300 mt-2">Mendeteksi lokasi...</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-4">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.5, type: "spring" }}
+                        className="text-5xl"
+                      >
+                        {getWeatherEmoji(weather.condition)}
+                      </motion.div>
+                      <div className="text-right">
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.6 }}
+                          className="text-3xl font-bold text-white"
+                        >
+                          {weather.temp}°C
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.7 }}
+                          className="text-amber-300 font-medium capitalize"
+                        >
+                          {weather.condition}
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.8 }}
+                          className="text-gray-300 text-sm mt-1"
+                        >
+                          📍 {weather.location}
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Weather Details */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.9 }}
+                      className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10"
+                    >
+                      <div className="text-center">
+                        <div className="text-gray-300 text-sm">Kelembapan</div>
+                        <div className="text-white font-semibold">{weather.humidity}%</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-gray-300 text-sm">Terasa seperti</div>
+                        <div className="text-white font-semibold">{weather.temp + 2}°C</div>
+                      </div>
+                    </motion.div>
+
+                    {/* Fun Message */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1 }}
+                      className="text-center mt-4 pt-4 border-t border-white/10"
+                    >
+                      <p className="text-amber-300 text-sm">
+                        {getWeatherMessage(weather.temp, weather.condition)}
+                      </p>
+                      {weather.error && (
+                        <p className="text-red-300 text-xs mt-2">{weather.error}</p>
+                      )}
+                    </motion.div>
+                  </>
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
