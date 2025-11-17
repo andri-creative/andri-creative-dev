@@ -11,7 +11,6 @@ import {
     Flex,
     Inset,
     Avatar,
-    Badge,
 } from "@radix-ui/themes";
 import Image from "next/image";
 import { ImCodepen } from "react-icons/im";
@@ -23,8 +22,27 @@ import { LuComponent } from "react-icons/lu";
 import { GrBook } from "react-icons/gr";
 import { TbMessageChatbot } from "react-icons/tb";
 import { useAppContext } from "@/app/contexts/AppContext";
+import { useMemo } from "react";
+
+export const MotionBox = motion(Box);
 
 export default function FeaturedSections() {
+    const { achievements } = useAppContext();
+
+    const sortedAchievements = useMemo(() => {
+        if (!Array.isArray(achievements)) return [];
+
+        const pinnedOnly = achievements.filter((i) => i.pinned === true);
+
+        const sorted = pinnedOnly.sort((a, b) => {
+            const dateA = new Date(a.issueDate.split(",")[0]);
+            const dateB = new Date(b.issueDate.split(",")[0]);
+            return dateB.getTime() - dateA.getTime();
+        });
+
+        return sorted.slice(0.3);
+    }, [achievements]);
+
     const images = [
         "https://res.cloudinary.com/dxvck1hv9/image/upload/v1761821043/my_album/my_album/59-43-17-30-10-2025-0.3024x4032.webp",
         "https://res.cloudinary.com/dxvck1hv9/image/upload/v1761821043/my_album/my_album/59-43-17-30-10-2025-0.3024x4032.webp",
@@ -69,8 +87,18 @@ export default function FeaturedSections() {
 
     const [current, setCurrent] = useState(0);
     const [startPos, setStartPos] = useState(0);
-    const { projects, projectsLoading } = useAppContext();
+
+    const { projects, projectsLoading, myAlbum, myAlbumLoading } =
+        useAppContext();
     console.log("projectsLoading:", projectsLoading);
+    console.log("myAlbumLoading", myAlbumLoading);
+
+    const filterAlbum = myAlbum
+        .filter((item) => item.width < item.height)
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .slice(0, 10);
+
+    // console.log('ini album', filterAlbum)
 
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -169,7 +197,8 @@ export default function FeaturedSections() {
                                     >
                                         <Flex direction="column" gap="4">
                                             {projects.map((i) => (
-                                                <AspectRatio key={i.id}
+                                                <AspectRatio
+                                                    key={i.id}
                                                     ratio={16 / 8}
                                                     style={{
                                                         border: "4px solid var(--accent-5)",
@@ -180,14 +209,13 @@ export default function FeaturedSections() {
                                                         src={i.image}
                                                         quality={85}
                                                         fill
-                                                        alt={i.id + 'demo preview'}
+                                                        alt={i.id + "demo preview"}
                                                         style={{
                                                             objectFit: "cover",
                                                             borderRadius: "var(--radius-2)",
                                                         }}
                                                     />
                                                 </AspectRatio>
-
                                             ))}
 
                                             {/* <AspectRatio ratio={16 / 8}>
@@ -285,7 +313,7 @@ export default function FeaturedSections() {
                                         }}
                                     >
                                         <AnimatePresence>
-                                            {images.map((src, i) => {
+                                            {filterAlbum.map((src, i) => {
                                                 const position =
                                                     (i - current + images.length) % images.length;
 
@@ -333,8 +361,8 @@ export default function FeaturedSections() {
                                                         >
                                                             <Inset clip="padding-box" side="top" pb="current">
                                                                 <Image
-                                                                    src={src}
-                                                                    alt={`card-${i}`}
+                                                                    src={src.url}
+                                                                    alt={src.id + "About"}
                                                                     width={150}
                                                                     height={200}
                                                                     style={{
@@ -463,19 +491,78 @@ export default function FeaturedSections() {
                                         <Heading>
                                             <Text style={{ margin: 0 }}>Achievements</Text>
                                         </Heading>
-                                        <Text size={{ initial: "3" }}>Milestones from programs, projects, and communities.</Text>
+                                        <Text size={{ initial: "3" }}>
+                                            Milestones from programs, projects, and communities.
+                                        </Text>
                                     </Box>
                                     <Box width={{ initial: "100%", md: "80%" }}>
-                                        <Flex direction='column' justify='center' align='center'>
-                                            <Box position='relative'>
-                                                <Box style={{ border: '2px solid var(--accent-6)', borderRadius: '.3rem', position: 'absolute', left: '-50px', zIndex: -1, rotate: '-10deg' }}>
-                                                    <Image src='/achieve/01.png' width={170} height={100} alt="01" style={{ borderRadius: '.3rem' }} />
+                                        <Flex direction="column" justify="center" align="center">
+                                            <Box position="relative" style={{ height: "120px" }}>
+                                                <MotionBox
+                                                    style={{
+                                                        border: "2px solid var(--accent-6)",
+                                                        borderRadius: ".3rem",
+                                                        position: "absolute",
+                                                        left: "-50px",
+                                                        zIndex: -1,
+                                                        rotate: "-10deg",
+                                                        overflow: "hidden",
+                                                        cursor: "pointer",
+                                                        pointerEvents: "auto"
+                                                    }}
+                                                    whileHover={{
+                                                        scale: 1.1,
+                                                        zIndex: 3,
+                                                        rotate: "-5deg",
+                                                        transition: { type: "spring", stiffness: 200 },
+                                                    }}
+                                                >
+                                                    {sortedAchievements[0]?.src && (
+                                                        <Image
+                                                            src={sortedAchievements[0].src}
+                                                            width={170}
+                                                            height={100}
+                                                            alt={sortedAchievements[0].id + "show"}
+                                                            style={{ borderRadius: ".3rem" }}
+                                                        />
+                                                    )}
+                                                </MotionBox>
+                                                <Box
+                                                    style={{
+                                                        border: "2px solid var(--accent-6)",
+                                                        borderRadius: ".3rem",
+                                                    }}
+                                                >
+                                                    {sortedAchievements[1]?.src && (
+                                                        <Image
+                                                            src={sortedAchievements[1].src}
+                                                            width={170}
+                                                            height={100}
+                                                            alt={sortedAchievements[1].id + "show"}
+                                                            style={{ borderRadius: ".3rem" }}
+                                                        />
+                                                    )}
                                                 </Box>
-                                                <Box style={{ border: '2px solid var(--accent-6)', borderRadius: '.3rem' }}>
-                                                    <Image src='/achieve/01.png' width={170} height={100} alt="01" style={{ borderRadius: '.3rem' }} />
-                                                </Box>
-                                                <Box style={{ border: '2px solid var(--accent-6)', borderRadius: '.3rem', position: 'absolute', top: 0, right: '-50px', zIndex: -1, rotate: '10deg' }}>
-                                                    <Image src='/achieve/01.png' width={170} height={100} alt="01" style={{ borderRadius: '.3rem' }} />
+                                                <Box
+                                                    style={{
+                                                        border: "2px solid var(--accent-6)",
+                                                        borderRadius: ".3rem",
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        right: "-50px",
+                                                        zIndex: -1,
+                                                        rotate: "10deg",
+                                                    }}
+                                                >
+                                                    {sortedAchievements[2]?.src && (
+                                                        <Image
+                                                            src={sortedAchievements[2].src}
+                                                            width={170}
+                                                            height={100}
+                                                            alt={sortedAchievements[2].id + "show"}
+                                                            style={{ borderRadius: ".3rem" }}
+                                                        />
+                                                    )}
                                                 </Box>
                                             </Box>
                                             <Image

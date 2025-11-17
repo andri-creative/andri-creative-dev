@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Box,
   Avatar,
@@ -10,7 +12,10 @@ import {
 import React from "react";
 import { AiOutlineSpotify } from "react-icons/ai";
 import Image from "next/image";
+import { useThemeMode } from "@/components/ThemeProvider";
 export default function User() {
+
+  const { accentColor } = useThemeMode();
   return (
     <Box>
       <Heading size="7" align="center" mb="2" mt="1">
@@ -18,12 +23,12 @@ export default function User() {
       </Heading>
       <Flex align="center" justify="between" pb="4">
         <Box>
-          <Badge radius="full" color="green">
+          <Badge radius="full">
             <span
               style={{
                 width: 8,
                 height: 8,
-                backgroundColor: "green",
+                backgroundColor: `var(--${accentColor}-9)`,
                 borderRadius: "50%",
                 display: "inline-block",
                 marginRight: 6,
@@ -33,7 +38,9 @@ export default function User() {
           </Badge>
         </Box>
         <Box>
-          <IconButton size="2" radius="full" color="green">
+          <IconButton size="2" radius="full" style={{
+            color: `var(--${accentColor}-4)`
+          }}>
             <AiOutlineSpotify />
           </IconButton>
         </Box>
@@ -43,8 +50,12 @@ export default function User() {
           <Avatar
             size="7"
             radius="full"
-            src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
+            src="/profile/02.webp"
             fallback="A"
+            style={{
+              objectFit: 'cover',
+              objectPosition: "center 90%"
+            }}
           />
         </Box>
       </Flex>

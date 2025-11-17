@@ -7,7 +7,7 @@ import SkillsMatrix from "@/components/home/SkillsMatrix";
 import FeaturedSections from "@/components/home/FeaturedSections";
 
 export default function HomePage() {
-  const { words, skills } = useAppContext();
+  const { words, skills, achievements } = useAppContext();
 
   // console.log(skills);
 

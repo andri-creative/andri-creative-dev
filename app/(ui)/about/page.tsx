@@ -21,89 +21,52 @@ const experienceData = [
         logo: "/logo/flashcom.png",
         fallback: "FC",
         responsibilities: [
-            "Mengembangkan aplikasi laundry full-stack dari nol",
-            "Membuat RESTful API dengan Node.js dan Express",
-            "Membangun frontend responsive dengan React.js",
-            "Mengintegrasikan sistem payment gateway"
+            "Mengembangkan aplikasi laundry full-stack menggunakan Laravel",
+            "Membangun RESTful API dengan Laravel",
+            "Mengembangkan frontend responsive menggunakan Bootstrap",
+            "Mengimplementasikan fitur interaktif dengan jQuery"
         ],
         achievements: [
             "Menyelesaikan project 2 minggu lebih cepat dari deadline",
             "Meningkatkan performa aplikasi hingga 40%",
             "Mendapat feedback positif dari client"
         ],
-        technologies: ["React.js", "Node.js", "Express", "MongoDB", "PostgreSQL", "Redis", "Docker"]
+        technologies: ["Laravel", "MySQL", "Bootstrap", "jQuery", "PHP"]
     },
     {
         id: 2,
-        company: "PT Tech Innovation Hub",
-        position: "Frontend Developer - E-commerce Platform",
-        location: "Wonokromo, Surabaya",
-        period: "Sep 2023 - Jan 2024",
-        duration: "5 bulan",
-        employmentType: "Contract",
-        workModel: "Remote",
-        logo: "/logo/tih.png",
-        fallback: "TI",
-        responsibilities: [
-            "Mengembangkan UI/UX untuk platform e-commerce",
-            "Optimasi performa website dan mobile responsiveness",
-            "Implementasi state management dengan Redux",
-            "Kolaborasi dengan tim design untuk design system"
-        ],
-        achievements: [
-            "Meningkatkan PageSpeed Score dari 60 ke 85",
-            "Reduce bundle size sebesar 30%",
-            "Menerapkan best practices accessibility"
-        ],
-        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Redux", "Jest", "GraphQL"]
-    },
-    {
-        id: 3,
-        company: "CV Digital Creative Studio",
-        position: "Backend Developer - LMS System",
-        location: "Gubeng, Surabaya",
-        period: "Mar 2023 - Aug 2023",
+        company: "SMPN 1 Sedati",
+        position: "Full Stack Developer - Perpustakaan Digital",
+        location: "Sedati, Sidoarjo",
+        period: "Jul 2024 - Des 2024",
         duration: "6 bulan",
-        employmentType: "Full-time",
-        workModel: "On-site",
-        logo: "/logo/dcs.png",
-        fallback: "DC",
+        employmentType: "Project-based",
+        workModel: "Hybrid / Remote",
+        logo: "/logo/smpn-1-sedati.png",
+        fallback: "PD",
         responsibilities: [
-            "Membangun REST API untuk Learning Management System",
-            "Design database architecture dan optimization",
-            "Implementasi authentication dan authorization",
-            "Integrasi third-party services (payment, email)"
+            "Mendesain dan mengimplementasikan aplikasi Perpustakaan Digital berbasis web menggunakan Next.js",
+            "Membangun API dan layer data dengan PostgreSQL (Prisma sebagai ORM)",
+            "Menambahkan fitur pemindaian QR code untuk peminjaman dan pengembalian buku",
+            "Membuat UI responsif dan aksesibel menggunakan Tailwind CSS",
+            "Mengimplementasikan autentikasi dan otorisasi pengguna (NextAuth / JWT)",
+            "Mengoptimalkan performa, caching, dan SEO untuk daftar katalog buku"
         ],
         achievements: [
-            "System handle 10,000+ concurrent users",
-            "Mengurangi query time hingga 60%",
-            "Membangun real-time notification system"
+            "Meluncurkan MVP dengan fitur peminjaman lewat QR code dalam 6 minggu",
+            "Meningkatkan kecepatan pemuatan halaman katalog hingga 55%",
+            "Menurunkan jumlah error peminjaman manual sebesar 90% setelah integrasi QR"
         ],
-        technologies: ["Laravel", "MySQL", "Redis", "WebSocket", "JWT", "AWS S3"]
-    },
-    {
-        id: 4,
-        company: "Startup Fintech Indonesia",
-        position: "Full Stack Developer - Banking App",
-        location: "Jakarta Selatan (Remote)",
-        period: "Jun 2022 - Feb 2023",
-        duration: "9 bulan",
-        employmentType: "Full-time",
-        workModel: "Remote",
-        logo: "/logo/fintech.png",
-        fallback: "FT",
-        responsibilities: [
-            "Develop mobile banking application features",
-            "Implement security protocols dan encryption",
-            "Build admin dashboard untuk monitoring",
-            "CI/CD pipeline setup dan maintenance"
-        ],
-        achievements: [
-            "App launch successful dengan 50k+ downloads",
-            "Zero critical bugs pada production",
-            "Mencapai 99.9% uptime"
-        ],
-        technologies: ["React Native", "Golang", "PostgreSQL", "Docker", "Kubernetes", "CI/CD"]
+        technologies: [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "PostgreSQL",
+            "Prisma",
+            "Tailwind CSS",
+            "NextAuth",
+            "qrcode"
+        ]
     }
 ];
 
@@ -342,7 +305,7 @@ export default function AboutPage() {
                                     <Box>
                                         <Avatar
                                             size={{ initial: '6', md: '7' }}
-                                            src='/logo/flashcom.png'
+                                            src={i.logo}
                                             fallback="FC"
                                             style={{
                                                 borderRadius: '8px',

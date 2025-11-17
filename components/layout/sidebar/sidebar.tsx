@@ -130,7 +130,7 @@ export default function Sidebar({ iconOnly = false, stats, onMobileClose }: Side
               <Avatar
                 size="3"
                 radius="full"
-                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453"
+                src="/profile/02.webp"
                 fallback="A"
               />
             </Flex>

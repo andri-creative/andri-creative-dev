@@ -5,14 +5,32 @@ import Image from "next/image";
 import { GiAchievement } from "react-icons/gi";
 import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons"
 import { useRouter } from "next/navigation";
-
+import { useThemeMode } from "@/components/ThemeProvider";
 import { useAppContext } from "@/app/contexts/AppContext";
+import { TbPinned } from 'react-icons/tb'
+import { useMemo } from "react";
 
 export default function AchievementsPage() {
+    const { accentColor } = useThemeMode();
     const { achievements, achievementsPagination, achievementsLoading } = useAppContext();
     const router = useRouter();
     console.log('achievementsLoading:', achievementsLoading);
 
+    const sortedAchievements = useMemo(() => {
+        if (!Array.isArray(achievements)) return []
+        return [...achievements].sort((a, b) => {
+            if (a.pinned !== b.pinned) {
+                return Number(b.pinned) - Number(a.pinned)
+            }
+
+            const dateA = new Date(a.issueDate.split(',')[0])
+            const dateB = new Date(b.issueDate.split(',')[0])
+
+            return dateB.getTime() - dateA.getTime()
+        })
+    }, [achievements])
+
+    console.log('ii', sortedAchievements)
     const handleViewDetails = (id: string) => {
         router.push(`/achievements/${id.toString()}`);
     };
@@ -80,9 +98,11 @@ export default function AchievementsPage() {
                     </Box>
 
                     <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="var(--space-4)">
-                        {achievements.map((i) => (
+                        {sortedAchievements.map((i) => (
                             <Box maxWidth="440px" key={i.id}>
-                                <Card size="2">
+                                <Card size="2" style={{
+                                    position: "relative"
+                                }}>
                                     <Inset clip="padding-box" side="top" pb="current">
                                         <Image
                                             src={i.src}
@@ -98,7 +118,17 @@ export default function AchievementsPage() {
                                             }}
                                         />
                                     </Inset>
-
+                                    {i.pinned === true && (
+                                        <Box position="absolute" top='2' right='3' style={{
+                                            backgroundColor: `var(--${accentColor}-4)`,
+                                            padding: "6px",
+                                            borderRadius: "50%",
+                                            display: "flex",
+                                            cursor: "pointer",
+                                        }}>
+                                            <TbPinned size={16} color={`var(--${accentColor}-9)`} />
+                                        </Box>
+                                    )}
                                     <Flex direction="column" gap="2" mt="2">
                                         {/* Badge Status */}
                                         <Flex gap="2" align="center">

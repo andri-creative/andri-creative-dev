@@ -20,6 +20,7 @@ export interface AchievementStats {
   level: string;
   tags: string[];
   status: string;
+  pinned: boolean;
 }
 
 export interface AlbumStats {
@@ -28,6 +29,7 @@ export interface AlbumStats {
   width: number;
   height: number;
   url: string;
+  createdAt: number;
 }
 
 export interface ProjectStats {
