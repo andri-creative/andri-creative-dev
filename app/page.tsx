@@ -230,13 +230,15 @@ export default function PortfolioEntry() {
                   </motion.button>
                 </Link>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="border border-amber-400/30 hover:border-amber-400/60 text-amber-300 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors backdrop-blur-sm text-sm sm:text-base"
-                >
-                  📧 Contact Me
-                </motion.button>
+                <Link href='/contact'>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border border-amber-400/30 hover:border-amber-400/60 text-amber-300 px-6 sm:px-8 py-3 rounded-full font-semibold transition-colors backdrop-blur-sm text-sm sm:text-base"
+                  >
+                    📧 Contact Me
+                  </motion.button>
+                </Link>
               </motion.div>
 
               {/* Tech Stack Badges */}

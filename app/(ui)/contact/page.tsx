@@ -288,7 +288,7 @@ export default function ContactPage() {
                             borderRadius: 'var(--radius-3)'
                         }}>
                             <Image
-                                src="https://glints.com/id/lowongan/wp-content/uploads/2022/04/cara-mengambil-foto-profesional-2.jpg"
+                                src="/profile/cont.png"
                                 alt="Professional Contact"
                                 fill
                                 style={{
