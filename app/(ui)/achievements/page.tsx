@@ -10,6 +10,10 @@ import { useAppContext } from "@/app/contexts/AppContext";
 import { TbPinned } from 'react-icons/tb'
 import { useMemo } from "react";
 
+function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export default function AchievementsPage() {
     const { accentColor } = useThemeMode();
     const { achievements, achievementsPagination, achievementsLoading } = useAppContext();
@@ -133,7 +137,7 @@ export default function AchievementsPage() {
                                         {/* Badge Status */}
                                         <Flex gap="2" align="center">
                                             <Badge color="green" size="1" variant="soft">
-                                                {i.category}
+                                                {capitalize(i.category)}
                                             </Badge>
                                             {i.status && (
                                                 <Badge color="blue" size="1">Verified</Badge>
@@ -202,7 +206,7 @@ export default function AchievementsPage() {
 
                                             </Text>
                                             <Text size="1" color="gray">
-                                                ⭐ {i.level}
+                                                ⭐ {capitalize(i.level)}
                                             </Text>
                                         </Flex>
 
