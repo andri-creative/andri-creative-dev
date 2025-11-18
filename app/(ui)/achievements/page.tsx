@@ -110,6 +110,7 @@ export default function AchievementsPage() {
                                     <Inset clip="padding-box" side="top" pb="current">
                                         <Image
                                             src={i.src}
+                                            // src="https://dl.dropboxusercontent.com/scl/fi/f1n0xsz6jjmfb1rpx5o67/1763424067848_cara-mengambil-foto-profesional-2.jpg?rlkey=slhk9uzck9mhrenhasz8awbfg"
                                             alt={i.id + ' certificate' + i.title}
                                             width={400}
                                             height={240}
