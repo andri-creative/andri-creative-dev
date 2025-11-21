@@ -51,7 +51,7 @@ export default function Project({ project }: ProjectProms) {
                 </Text>
             </motion.div>
 
-            <Grid columns={{ initial: "1", md: "4" }} gap="4" width="auto">
+            <Grid columns={{ initial: '1', sm: '2', md: '3', xl: '4' }} gap="4" width="auto">
                 <AnimatePresence>
                     {sortedProjects.map((i, index) => (
                         <Box key={i.id} maxWidth="480px">

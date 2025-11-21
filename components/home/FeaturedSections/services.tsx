@@ -24,7 +24,7 @@ export default function Services() {
         <Box p={{ initial: "0", md: "4" }}>
             <Grid
                 gap="2"
-                columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                columns={{ initial: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
             >
                 <Box>
                     <Heading
@@ -52,7 +52,7 @@ export default function Services() {
                         End-to-end solutions in web, mobile, AI, and design.
                     </Text>
                 </Box>
-                <Box>
+                <Box height={{ initial: "180px", sm: "250px", lg: "350px" }}>
                     <Flex
                         direction="column"
                         gap={{ initial: "2", md: "5" }}

@@ -56,12 +56,11 @@ export default async function FeaturedSections() {
                         <Box p={{ initial: "0", md: "4" }}>
                             {/* Project */}
                             <Project project={dataProject} />
-
                         </Box>
                     </Card>
                     <Box>
                         <Grid
-                            columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                            columns={{ initial: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
                             gap="4"
                         >
                             <AboutMe myAlbum={dataMyAlbum} />
@@ -78,11 +77,10 @@ export default async function FeaturedSections() {
                 >
                     <Box>
                         <Grid
-                            columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                            columns={{ initial: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
                             gap="4"
                         >
                             <Achievements achievement={dataAchievements} />
-
                             <Chat />
                         </Grid>
                     </Box>

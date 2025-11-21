@@ -1,14 +1,11 @@
 import {
     Box,
-    Card,
     Grid,
     Heading,
     Text,
     ScrollArea,
     AspectRatio,
     Flex,
-    Inset,
-    Avatar,
 } from "@radix-ui/themes";
 import { ImStack } from "react-icons/im";
 import Image from "next/image";
@@ -24,7 +21,7 @@ export default function Project({ project }: PropsProject) {
     return (
         <Grid
             gap="2"
-            columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            columns={{ initial: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
         >
             <Box>
                 <Heading
@@ -53,7 +50,7 @@ export default function Project({ project }: PropsProject) {
                 </Text>
             </Box>
 
-            <Box height={{ initial: "150px", lg: "350px" }}>
+            <Box height={{ initial: "180px", sm: "250px", lg: "350px" }}>
                 <ScrollArea
                     type="always"
                     scrollbars="vertical"
