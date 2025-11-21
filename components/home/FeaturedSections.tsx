@@ -49,7 +49,7 @@ export default async function FeaturedSections() {
                 {/* Concatenate 1*/}
                 <Grid
                     style={{ marginBottom: "1rem" }}
-                    columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                    columns={{ initial: "repeat(1, 1fr)", xl: "repeat(2, 1fr)" }}
                     gap="4"
                 >
                     <Card>
@@ -72,7 +72,7 @@ export default async function FeaturedSections() {
                 {/* Concatenate 2*/}
                 <Grid
                     style={{ marginBottom: "1rem" }}
-                    columns={{ initial: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                    columns={{ initial: "repeat(1, 1fr)", xl: "repeat(2, 1fr)" }}
                     gap="4"
                 >
                     <Box>
