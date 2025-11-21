@@ -14,7 +14,8 @@ import { useRating } from "@/app/hooks/useRating"
 
 export default function ResultRating() {
     const { stats, isLoading } = useRating();
-    if (isLoading) return <Text>Loading...</Text>;
+    // if (isLoading) return <Text>Loading...</Text>;
+    console.log(isLoading)
 
     const distribution = stats?.rantingDistribution
         ? Object.entries(stats.rantingDistribution).map(([stars, count]) => ({

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import IconSearch from "./icon-search";
 import ToggleDarkMode from "@/components/TogelDarkMode";
 import Settings from "./Settings";
@@ -12,24 +12,26 @@ interface HeaderProps {
   onToggleIconOnly?: () => void;
   isMobile?: boolean;
   isSidebarOpen?: boolean;
+  iconOnly?: boolean;
 }
 
 export default function Header({
   onToggleSidebar,
   onToggleIconOnly,
-  isMobile,
-  isSidebarOpen,
+  // isMobile,
+  // isSidebarOpen,
+  iconOnly,
 }: HeaderProps) {
-  const [isIconOnly, setIsIconOnly] = useState(false);
+  // const [isIconOnly, setIsIconOnly] = useState(false);
 
   const handleToggle = () => {
     if (window.innerWidth < 1024) {
       onToggleSidebar?.();
     } else {
-      setIsIconOnly(!isIconOnly);
       onToggleIconOnly?.();
     }
   };
+
 
   return (
     <Box
@@ -65,7 +67,7 @@ export default function Header({
           }}
         >
           <AnimatePresence mode="wait" initial={false}>
-            {isIconOnly ? (
+            {iconOnly ? (
               <motion.div
                 key="left"
                 initial={{ rotate: -90, opacity: 0, y: -10 }}

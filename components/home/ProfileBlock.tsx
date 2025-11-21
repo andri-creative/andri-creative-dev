@@ -16,10 +16,12 @@ import { LuBadgeCheck } from "react-icons/lu";
 import type { WordItem } from "@/lib/words";
 
 interface ProfileBlockProps {
-  words: WordItem[];
+  dataWords: WordItem[];
 }
 
-export default function ProfileBlock({ words }: ProfileBlockProps) {
+export default function ProfileBlock({ dataWords }: ProfileBlockProps) {
+
+  // console.log('ini words', dataWords)
   return (
     <>
       <Grid
@@ -95,7 +97,7 @@ export default function ProfileBlock({ words }: ProfileBlockProps) {
                 whiteSpace: "nowrap",
               }}
             >
-              &#9702; Onsite
+              &#9702; Freelance 
             </Badge>
           </Flex>
           <Flex>
@@ -200,7 +202,7 @@ export default function ProfileBlock({ words }: ProfileBlockProps) {
                   <LuBadgeCheck />
                   <Text size="2">Words</Text>
                 </Badge>
-                {words?.map((i) => (
+                {dataWords?.map((i) => (
                   <Box key={i.id}>
                     <Blockquote size="2">
                       &#34;In which situations do they work best, when do they
@@ -209,27 +211,6 @@ export default function ProfileBlock({ words }: ProfileBlockProps) {
                     </Blockquote>
                   </Box>
                 ))}
-
-                {/* <Box>
-                  <Blockquote size="2">
-                    &#34;When does something become our greatest ally, when does
-                    it let us down, and how can we know whether to embrace it or
-                    let it go?&#34;
-                  </Blockquote>
-                </Box>
-                <Box>
-                  <Blockquote size="2">
-                    &#34;I can debug thousands of errors, but I can’t debug this
-                    feeling for you 😅💻❤️.&#34;
-                  </Blockquote>
-                </Box>
-                <Box>
-                  <Blockquote size="2">
-                    &#34;What is the true cost of convenience, when is it a
-                    worthy trade-off, and how do we assess its value in the
-                    grand scheme?&#34;
-                  </Blockquote>
-                </Box> */}
               </Flex>
             </motion.div>
           </Box>

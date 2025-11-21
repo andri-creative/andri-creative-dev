@@ -53,8 +53,7 @@ export default function User() {
             src="/profile/02.webp"
             fallback="A"
             style={{
-              objectFit: 'cover',
-              objectPosition: "center 90%"
+              objectPosition: "center 20%",
             }}
           />
         </Box>

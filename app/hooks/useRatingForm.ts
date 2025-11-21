@@ -1,62 +1,26 @@
 // hooks/useRatingForm.ts
+"use client";
+
 import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
-interface RatingFormValues {
-  rating: number;
-}
+import { ratingService } from "@/app/services/ratingService";
+import type { RatingResponse } from "@/app/services/ratingService";
 
-interface RatingResponse {
-  success: boolean;
-  message: string;
-  data: {
-    id: string;
-    label: string;
-    rating: number;
-    createdAt: string;
-  };
-  stats?: {
-    averageRating: number;
-    totalRating: number;
-    rantingDistribution: {
-      "1": number;
-      "2": number;
-      "3": number;
-      "4": number;
-      "5": number;
-    };
-  };
-}
-
-interface UseRatingFormProps {
-  onSubmit: (values: RatingFormValues) => Promise<RatingResponse>;
-}
-
-export function useRatingForm({ onSubmit }: UseRatingFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+export function useRatingForm(onSuccess?: (stats: RatingResponse) => void) {
   const form = useForm({
     defaultValues: {
       rating: 0,
     },
-    onSubmit: async ({ value }) => {
-      setIsSubmitting(true);
-      console.log("Form values:", value);
 
-      try {
-        const result = await onSubmit(value);
-        console.log("✅ Form submission result:", result);
-        return result; // ⭐ RETURN THE RESULT
-      } catch (error) {
-        console.error("Form submission error:", error);
-        throw error;
-      } finally {
-        setIsSubmitting(false);
-      }
+    onSubmit: async ({ value }) => {
+      const stats = await ratingService.submitRating(value.rating);
+
+      if (onSuccess) onSuccess(stats);
+      return stats;
     },
   });
 
   return {
     form,
-    isSubmitting,
+    isSubmitting: form.state.isSubmitting,
   };
 }

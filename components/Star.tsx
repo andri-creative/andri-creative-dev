@@ -1,5 +1,4 @@
 "use client";
-import { StarIcon } from "@radix-ui/react-icons";
 import {
   Box,
   IconButton,
@@ -13,24 +12,25 @@ import Lottie from "lottie-react";
 import { AnimationItem } from "lottie-web";
 import { startTransition } from "react";
 
+import star from "@/public/emoticons/Star.json"
 import sad from "@/public/emoticons/1.json";
 import confused from "@/public/emoticons/2.json";
 import neutral from "@/public/emoticons/3.json";
 import happy from "@/public/emoticons/4.json";
 import love from "@/public/emoticons/5.json";
-import { useRatingForm } from '@/app/hooks/useRatingForm'
-import { ratingService } from '@/app/services/ratingService'
+
+import { useRatingForm } from "@/app/hooks/useRatingForm";
+import type { RatingResponse } from "@/app/services/ratingService"
 
 interface Emotion {
   icon: string;
   label: string;
   animation: object | AnimationItem;
 }
-import { RatingStats } from "@/lib/getDashboard";
+// import { RatingStats } from "@/lib/getDashboard";
 
 interface StarsProps {
-  refreshRating: (newRating?: number) => void;
-  updateRatingStats?: (newStats: RatingStats) => void;
+  refreshRating: (newStats?: RatingResponse) => void;
 }
 
 export default function Stars({ refreshRating }: StarsProps) {
@@ -48,15 +48,10 @@ export default function Stars({ refreshRating }: StarsProps) {
     { icon: "😍", label: "Very Good", animation: love },
   ];
 
-  // Gunakan TanStack Form
-  const { form, isSubmitting } = useRatingForm({
-    onSubmit: async (values) => {
-      // ⭐ TAMBAHKAN RETURN
-      return await ratingService.submitRating(values.rating);
-    },
+  const { form, isSubmitting } = useRatingForm((stats) => {
+    refreshRating(stats);
   })
-
-  const ratingValue = form.state.values.rating;
+  const ratingValue = form.state.values.rating || 0;
 
   // Cek ukuran layar
   useEffect(() => {
@@ -76,29 +71,19 @@ export default function Stars({ refreshRating }: StarsProps) {
     }
   }, [showAlert]);
 
+
   const handleRatingSelect = async (value: number, emotion: Emotion) => {
     setSelectedEmotion(emotion);
     form.setFieldValue('rating', value);
 
-    console.log("🎯 Emoticon yang dipilih:", emotion.label);
-    console.log("⭐ Rating value:", value);
+    // console.log("🎯 Emoticon yang dipilih:", emotion.label);
+    // console.log("⭐ Rating value:", value);
 
     try {
-      // 1. OPTIMISTIC UPDATE DULU
-      if (typeof refreshRating === 'function') {
-        refreshRating(value);
-      }
+      await form.handleSubmit();
 
-      // 2. SUBMIT DAN DAPATKAN RESPONSE
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = await form.handleSubmit() as any;
-      console.log("✅ Rating submitted with response:", result);
+      refreshRating();
 
-      // 3. GUNAKAN STATS DARI RESPONSE BACKEND (REAL-TIME!)
-      if (result?.stats) {
-        console.log("🎉 Using real-time stats from backend:", result.stats);
-        // Data real dari backend sudah ada di sini!
-      }
 
       setOpen(false);
       setTimeout(() => {
@@ -145,7 +130,8 @@ export default function Stars({ refreshRating }: StarsProps) {
           opacity: isSubmitting ? 0.6 : 1,
         }}
       >
-        <StarIcon width="24" height="24" />
+        <Lottie animationData={star} />
+
       </IconButton>
 
       {/* Drawer Rating */}

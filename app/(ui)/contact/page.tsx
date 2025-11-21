@@ -9,6 +9,8 @@ import { PiTiktokLogoLight } from "react-icons/pi";
 import { FaDribbble } from "react-icons/fa";
 import { useThemeMode } from "@/components/ThemeProvider";
 import contactService from "@/services/sedContact";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ContactPage() {
     const { accentColor } = useThemeMode();
@@ -26,13 +28,11 @@ export default function ContactPage() {
         e.preventDefault();
         setLoading(true);
 
-        // console.log('Form submitted:', formData);
         try {
             const response = await contactService.sendContactForm(formData);
-            // console.log('Contact form response:', response);
             if (response.success) {
 
-                alert('Thank you for your message! We will get back to you soon.');
+                toast.success('Thank you for your message! We will get back to you soon.');
                 setFormData({
                     firstName: '',
                     lastName: '',
@@ -43,11 +43,11 @@ export default function ContactPage() {
                 });
             } else {
 
-                alert('Oops! Something went wrong. Please try again.');
+                toast.error('Oops! Something went wrong. Please try again.');
             }
         } catch (error) {
-            console.error('Error sending contact form:', error);
-            alert('Oops! Something went wrong. Please try again.');
+            // console.error('Error sending contact form:', error);
+            toast.error('Oops! Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -65,13 +65,19 @@ export default function ContactPage() {
             background: 'linear-gradient(135deg, var(--gray-1) 0%, var(--gray-2) 100%)',
             // minHeight: '100vh'
         }}>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                pauseOnHover
+                theme="colored"
+            />
+
             <Grid
                 columns={{ initial: '1', lg: '2' }}
                 gap="8"
                 align="start"
                 style={{ margin: '0 auto' }}
             >
-                {/* Left Column - Contact Form */}
                 <Card size="4" style={{
                     background: 'white',
                     border: '1px solid var(--gray-6)',

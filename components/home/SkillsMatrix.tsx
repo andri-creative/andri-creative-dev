@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Card, Heading, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import { motion } from "framer-motion";

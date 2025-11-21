@@ -1,20 +1,27 @@
-"use client";
+
 
 import ProfileBlock from "@/components/home/ProfileBlock";
 import { Box } from "@radix-ui/themes";
-import { useAppContext } from "@/app/contexts/AppContext";
 import SkillsMatrix from "@/components/home/SkillsMatrix";
 import FeaturedSections from "@/components/home/FeaturedSections";
+import { getAllDashboard } from "@/lib/gelAllDashboard";
 
-export default function HomePage() {
-  const { words, skills, achievements } = useAppContext();
+export default async function HomePage() {
 
+  const data = await getAllDashboard();
+  // console.log('ini', data)
+  // const { words, skills } = dashboard;
   // console.log(skills);
+
+  const dataWords = data?.words || []
+  const dataSkills = data?.skills || []
+
+
 
   return (
     <Box width="100%" style={{ margin: 0, padding: "var(--space-2)" }}>
-      <ProfileBlock words={words} />
-      <SkillsMatrix skills={skills} />
+      <ProfileBlock dataWords={dataWords} />
+      <SkillsMatrix skills={dataSkills} />
       <FeaturedSections />
     </Box>
   );

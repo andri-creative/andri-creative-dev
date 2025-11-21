@@ -2,7 +2,6 @@
 
 import { useThemeMode } from "@/components/ThemeProvider";
 import { Box, Card, Grid, Heading, Text, Flex, Strong, Avatar } from "@radix-ui/themes";
-import Image from "next/image";
 import { PiGraduationCap } from "react-icons/pi";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import * as Accordion from "@radix-ui/react-accordion";
