@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Box,
@@ -8,13 +8,14 @@ import {
   Badge,
   Text,
   Heading,
+  Tooltip,
 } from "@radix-ui/themes";
 import React from "react";
 import { AiOutlineSpotify } from "react-icons/ai";
 import Image from "next/image";
 import { useThemeMode } from "@/components/ThemeProvider";
+import Link from "next/link";
 export default function User() {
-
   const { accentColor } = useThemeMode();
   return (
     <Box>
@@ -38,11 +39,18 @@ export default function User() {
           </Badge>
         </Box>
         <Box>
-          <IconButton size="2" radius="full" style={{
-            color: `var(--${accentColor}-4)`
-          }}>
-            <AiOutlineSpotify />
-          </IconButton>
+          <Link href="/">
+            <Tooltip
+              style={{
+                color: `var(--${accentColor}-4)`,
+              }}
+              content="Spotify"
+            >
+              <IconButton radius="full" style={{ cursor: "pointer" }}>
+                <AiOutlineSpotify />
+              </IconButton>
+            </Tooltip>
+          </Link>
         </Box>
       </Flex>
       <Flex align="center" justify="center">

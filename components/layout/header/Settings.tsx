@@ -9,8 +9,10 @@ import {
   Flex,
   RadioGroup,
   Button,
+  Separator,
 } from "@radix-ui/themes";
 import { useThemeMode } from "@/components/ThemeProvider";
+import Link from "next/link";
 
 type AccentColor = "blue" | "green" | "red" | "purple" | "orange";
 type GrayColor = "gray" | "mauve" | "slate" | "sage" | "olive";
@@ -143,6 +145,18 @@ export default function Settings() {
                 ))}
               </Flex>
             </RadioGroup.Root>
+          </Box>
+          <Box mt="5" mb="5">
+            <Separator orientation="horizontal" size="4" />
+          </Box>
+          <Box mb="3">
+            <Link href="/admin" style={{
+              cursor: "pointer",
+            }}>
+              <Button>
+                Admin
+              </Button>
+            </Link>
           </Box>
         </Popover.Content>
       </Popover.Root>

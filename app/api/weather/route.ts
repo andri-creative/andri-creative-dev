@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
 
-  console.log("🌤️ Weather API Called:", { lat, lon });
+  // console.log("🌤️ Weather API Called:", { lat, lon });
 
   // Validasi parameters
   if (!lat || !lon) {
@@ -18,8 +18,8 @@ export async function GET(request: Request) {
 
   const apiKey = process.env.OPENWEATHER_API_KEY;
 
-  console.log("🔑 API Key exists:", !!apiKey);
-  console.log("🔑 API Key length:", apiKey?.length);
+  // console.log("🔑 API Key exists:", !!apiKey);
+  // console.log("🔑 API Key length:", apiKey?.length);
 
   if (!apiKey) {
     return NextResponse.json(
@@ -33,12 +33,12 @@ export async function GET(request: Request) {
 
   try {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=id`;
-    console.log("🌐 Calling OpenWeather API:", apiUrl);
+    // console.log("🌐 Calling OpenWeather API:", apiUrl);
 
     const response = await fetch(apiUrl);
 
-    console.log("📡 Response status:", response.status);
-    console.log("📡 Response ok:", response.ok);
+    // console.log("📡 Response status:", response.status);
+    // console.log("📡 Response ok:", response.ok);
 
     if (!response.ok) {
       const errorText = await response.text();

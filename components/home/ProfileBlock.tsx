@@ -97,7 +97,7 @@ export default function ProfileBlock({ dataWords }: ProfileBlockProps) {
                 whiteSpace: "nowrap",
               }}
             >
-              &#9702; Freelance 
+              &#9702; Freelance
             </Badge>
           </Flex>
           <Flex>
@@ -205,9 +205,7 @@ export default function ProfileBlock({ dataWords }: ProfileBlockProps) {
                 {dataWords?.map((i) => (
                   <Box key={i.id}>
                     <Blockquote size="2">
-                      &#34;In which situations do they work best, when do they
-                      fail us, and how can we determine whether we need them or
-                      should steer clear?&#34;
+                      &#34;{i.title}?&#34;
                     </Blockquote>
                   </Box>
                 ))}
