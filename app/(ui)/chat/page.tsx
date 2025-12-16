@@ -6,7 +6,9 @@ import ProfileChat from "@/components/chat/Profile";
 import MaintenancePage from "../maintenance/page";
 
 export default function ChatPage() {
-  const { user, isLoading, login, logout } = useAuth();
+  const { user, isLoading } = useAuth();
+
+  console.log("🚀 ~ ChatPage ~ user:", user);
 
   if (isLoading) {
     return <p>Loading auth...</p>;
