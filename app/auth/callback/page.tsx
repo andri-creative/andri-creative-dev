@@ -1,28 +1,10 @@
-"use client";
+import { Suspense } from "react";
+import AuthCallbackClient from "./AuthCallbackClient";
 
-import { useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-
-export default function AuthCallbackPage() {
-  const router = useRouter();
-  const params = useSearchParams();
-  const { setAuthFromToken } = useAuth();
-
-  const hasRun = useRef(false); // 🔒 GUARD
-
-  useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
-
-    const token = params.get("token");
-
-    if (token) {
-      setAuthFromToken(token);
-    }
-
-    router.replace("/chat");
-  }, [router, setAuthFromToken, params]);
-
-  return null;
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <AuthCallbackClient />
+    </Suspense>
+  );
 }
