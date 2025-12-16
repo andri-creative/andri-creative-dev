@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,10 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Portfolio Andri | Creative Developer",
-  description: "Selamat datang di portfolio Andri. Seorang Web Developer kreatif dengan fokus pada teknologi modern, desain interaktif, dan pengalaman pengguna yang menarik.",
+  description:
+    "Selamat datang di portfolio Andri. Seorang Web Developer kreatif dengan fokus pada teknologi modern, desain interaktif, dan pengalaman pengguna yang menarik.",
   keywords: [
     "Andri",
     "Portfolio Andri",
@@ -35,7 +36,11 @@ export const metadata: Metadata = {
       { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
     apple: [
-      { url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      {
+        url: "/favicon/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
     ],
     other: [
       {
@@ -57,12 +62,13 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: "Portfolio Andri | Creative Developer",
-    description: "Eksplorasi karya, pengalaman, dan keahlian Andri dalam pengembangan web modern.",
+    description:
+      "Eksplorasi karya, pengalaman, dan keahlian Andri dalam pengembangan web modern.",
     url: "https://www.andri.biz.id/",
     siteName: "Portfolio Andri",
     images: [
       {
-        url: '/opengraph-image', // ← Next.js otomatis generate
+        url: "/opengraph-image", // ← Next.js otomatis generate
         width: 1200,
         height: 630,
         alt: "Portfolio Andri",
@@ -75,8 +81,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Portfolio Andri | Creative Developer",
-    description: "Web Developer kreatif dengan fokus pada desain interaktif & teknologi modern.",
-    images: ['/opengraph-image'],
+    description:
+      "Web Developer kreatif dengan fokus pada desain interaktif & teknologi modern.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -92,7 +99,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

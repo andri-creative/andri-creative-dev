@@ -52,9 +52,9 @@ const ThemeContext = createContext<ThemeContextValue>({
   mode: "light",
   accentColor: "blue",
   grayColor: "mauve",
-  toggleMode: () => { },
-  setAccentColor: () => { },
-  setGrayColor: () => { },
+  toggleMode: () => {},
+  setAccentColor: () => {},
+  setGrayColor: () => {},
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
