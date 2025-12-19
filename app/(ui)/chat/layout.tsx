@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
+import { Box } from "@radix-ui/themes";
 
 export default function ChatLayout({
   children,
@@ -16,9 +17,11 @@ export default function ChatLayout({
   }
 
   return (
-    <div className="flex h-screen ">
-      <aside className="w-64 border-r border-gray-800">Sidebar</aside>
-      <main className="flex-1 overflow-auto">{children}</main>
-    </div>
+    <Box style={{
+      minHeight: '90vh',
+      backgroundColor: 'var(--red-8)',
+    }}>
+      {children}
+    </Box>
   );
 }
