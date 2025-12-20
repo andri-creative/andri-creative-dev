@@ -16,13 +16,16 @@ export default function Album({ myAlbum }: AlbumProms) {
 
     const [lightboxIndex, setLightboxIndex] = useState(-1);
 
-    const photos = myAlbum.map((item) => ({
-        src: item.url,
-        width: item.width,
-        height: item.height,
-        alt: item.id + ' my album',
-        key: item.id,
-    }));
+    const photos = [...myAlbum]
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map((item) => ({
+            src: item.url,
+            width: item.width,
+            height: item.height,
+            alt: item.id + ' my album',
+            key: item.id,
+        }));
+
 
     return (
         <Card>
