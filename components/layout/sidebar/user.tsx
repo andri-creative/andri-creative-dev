@@ -54,17 +54,19 @@ export default function User() {
         </Box>
       </Flex>
       <Flex align="center" justify="center">
-        <Box>
-          <Avatar
-            size="7"
-            radius="full"
-            src="/profile/02.webp"
-            fallback="A"
-            style={{
-              objectPosition: "center 20%",
-            }}
-          />
-        </Box>
+        <Box
+          style={{
+            width: 120,
+            height: 120,
+            borderRadius: "50%",
+            overflow: "hidden",
+            position: "relative",
+            backgroundImage: "url('/profile/cont.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center 30%",
+            marginBottom: 12,
+          }}
+        />
       </Flex>
       <Flex display="flex" direction="column" align="center" justify="center">
         <Box>

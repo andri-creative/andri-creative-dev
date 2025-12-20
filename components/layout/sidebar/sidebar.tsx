@@ -114,7 +114,7 @@ export default function Sidebar({ iconOnly = false, onMobileClose }: SidebarProp
               <Avatar
                 size="3"
                 radius="full"
-                src="/profile/02.webp"
+                src="/profile/cont.png"
                 fallback="A"
               />
             </Flex>
